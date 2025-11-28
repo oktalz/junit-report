@@ -224,3 +224,23 @@ func TestLoadAndGetOrCreateSuite(t *testing.T) {
 		t.Errorf("Expected 2 suites, got %d", len(loadedTs.TestSuites))
 	}
 }
+
+func TestErrorMethod(t *testing.T) {
+	ts := NewTestSuites()
+	suite := ts.AddSuite("Error Tests")
+
+	suite.AddMessageError("file_err.go", "CompileFail", "Compilation failed")
+	ts.UpdateCounts()
+
+	if suite.Errors != 1 {
+		t.Errorf("Expected 1 error, got %d", suite.Errors)
+	}
+
+	tc := suite.TestCases[0]
+	if tc.Error == nil {
+		t.Error("Expected error element, got nil")
+	}
+	if tc.Error.Content != "Compilation failed" {
+		t.Errorf("Expected error content 'Compilation failed', got '%s'", tc.Error.Content)
+	}
+}

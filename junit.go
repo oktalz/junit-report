@@ -185,6 +185,19 @@ func (ts *TestSuite) AddMessageFailed(file, message, description string) {
 	tc.Failed(description, "Failure", description)
 }
 
+// AddMessageError adds an errored test case with a message and description.
+// If a test case with the same file and message exists, it updates it to errored.
+func (ts *TestSuite) AddMessageError(file, message, description string) {
+	if existing := ts.findTestCase(file, message); existing != nil {
+		// Ensure it is marked as errored
+		existing.Errored(description, "Error", description)
+		return
+	}
+	tc := ts.AddTestCase(message, "Test")
+	tc.SetFile(file)
+	tc.Errored(description, "Error", description)
+}
+
 // Marshal returns the XML encoding of the TestSuites.
 func (ts *TestSuites) Marshal() ([]byte, error) {
 	return xml.MarshalIndent(ts, "", "  ")

@@ -33,6 +33,9 @@ func main() {
 	// Add a passing test case
 	suite.AddMessageOK("main.go", "Build Check", "Build successful")
 
+	// Add an error test case
+	suite.AddMessageError("main.go", "Build Check", "Build failed")
+
 	// Add a failing test case
 	suite.AddMessageFailed("linter.go", "Lint Check", "Linting failed: variable unused")
 
@@ -75,7 +78,7 @@ The `add` subcommand is used to add a test case result.
 #### Arguments
 
 - `--output`: Path to the output XML file. Can also be set via `JUNIT_FILE` environment variable.
-- `--status`: Status of the check (`ok` or `failed`). Default: `ok`.
+- `--status`: Status of the check (`ok`, `error` or `failed`). Default: `ok`.
 - `--file`: File path related to the check.
 - `--message`: Name/Message for the check.
 - `--description`: Detailed description or output.
@@ -88,6 +91,12 @@ The `add` subcommand is used to add a test case result.
 ```bash
 junit-report add --output=report.xml --status=ok --file=main.go --message="Build" --description="Build successful"
 ```
+
+**Add an error check:**
+
+```bash
+junit-report add --output=report.xml --status=error --file=main.go --message="Build" --description="Build failed"
+```	
 
 **Add a failing check:**
 

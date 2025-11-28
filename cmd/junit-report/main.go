@@ -54,6 +54,8 @@ func main() {
 	switch *status {
 	case "ok":
 		suite.AddMessageOK(*file, *message, *description)
+	case "error":
+		suite.AddMessageError(*file, *message, *description)
 	case "failed":
 		suite.AddMessageFailed(*file, *message, *description)
 	default:
